@@ -5,6 +5,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
+
 public class GameController : NetworkBehaviour
 {
     public GameObject[] hazards;
@@ -22,6 +23,9 @@ public class GameController : NetworkBehaviour
     [SyncVar]
     private bool restart;
     public Text gameOverText;
+    public Text TextPause;
+
+    
 
     List<PlayerHealth> m_Players;
 
@@ -51,7 +55,21 @@ public class GameController : NetworkBehaviour
         }
     }
 
-    
+    public void Disconnect()
+    {
+        NetworkServer.DisconnectAll();
+    }
+
+    private void OnApplicationPause(bool pause)
+    {
+        if (pause)
+            TextPause.text = "Пауза";
+        else
+            TextPause.text = "";
+
+        
+    }
+
     IEnumerator SpawnWaves()
     {
         yield return new WaitForSeconds(startWait);

@@ -39,6 +39,7 @@ public class PlayerController : NetworkBehaviour
 
     public Text gameOverText;
 
+    
     void Update ()
 	{
         if (!isLocalPlayer)
@@ -62,6 +63,8 @@ public class PlayerController : NetworkBehaviour
     }
 
    
+
+    
 
     void FixedUpdate ()
 	{

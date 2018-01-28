@@ -13,11 +13,14 @@ public class MainMenuManager : MonoBehaviour {
     InputField m_InputFieldAddress;
     [SerializeField]
     NetworkManager m_NetworkManager;
-    string IpAddress;
+
+    [SerializeField]
+    string IpAddress = "localhost";
 	// Use this for initialization
 	void Start () {
        // m_NetworkManager = GetComponent<NetworkManager>();
         m_InputFieldAddress.onEndEdit.AddListener(onEndEdit);
+        m_InputFieldAddress.text = IpAddress;
     }
 	
 	// Update is called once per frame
@@ -35,18 +38,21 @@ public class MainMenuManager : MonoBehaviour {
     }
     public void m_ButtonConnectClicked()
     {
-        m_InputFieldAddress.gameObject.SetActive(true);
-        if(m_InputFieldAddress.gameObject.activeSelf)
+        if (m_InputFieldAddress.gameObject.activeSelf)
         {
             Connect(IpAddress);
         }
+        m_InputFieldAddress.gameObject.SetActive(true);
+        
     }
 
     private void Connect(string ipAddress)
     {
         var address = ipAddress.Split(':');
         m_NetworkManager.networkAddress = address[0];
-        m_NetworkManager.networkPort = int.Parse(address[1]);
+        if(address.Length >1 )
+            if(address[1] == "" )
+                m_NetworkManager.networkPort = int.Parse(address[1]);
         m_NetworkManager.StartClient();
     }
 
