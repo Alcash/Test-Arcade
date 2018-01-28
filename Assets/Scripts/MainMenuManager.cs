@@ -11,7 +11,7 @@ public class MainMenuManager : MonoBehaviour {
     Button m_ButtonStart, m_ButtonExit, m_ButtonConnect;
     [SerializeField]
     InputField m_InputFieldAddress;
-    [SerializeField]
+    
     NetworkManager m_NetworkManager;
 
     [SerializeField]
@@ -30,7 +30,7 @@ public class MainMenuManager : MonoBehaviour {
 
     public void m_ButtonStartClicked()
     {
-        m_NetworkManager.StartHost();
+        NetworkManager.singleton.StartHost();
     }
     public void m_ButtonExitClicked()
     {
@@ -49,11 +49,11 @@ public class MainMenuManager : MonoBehaviour {
     private void Connect(string ipAddress)
     {
         var address = ipAddress.Split(':');
-        m_NetworkManager.networkAddress = address[0];
+        NetworkManager.singleton.networkAddress = address[0];
         if(address.Length >1 )
             if(address[1] == "" )
-                m_NetworkManager.networkPort = int.Parse(address[1]);
-        m_NetworkManager.StartClient();
+                NetworkManager.singleton.networkPort = int.Parse(address[1]);
+        NetworkManager.singleton.StartClient();
     }
 
     public void onEndEdit(string ipAddress)

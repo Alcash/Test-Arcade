@@ -7,27 +7,36 @@ using UnityEngine.SceneManagement;
 public class MenuPause : MonoBehaviour {
 
     public Button ButtonPause, ButtonContinue, ButtonDisconnect, ButtonExit;
-    GameController _gameController;
+    public GameController _gameController;
     public GameObject panel;
 
     private void Start()
     {
-        _gameController = FindObjectOfType<GameController>();
+        ButtonPause.onClick.AddListener(ButtonPauseClicked);
+        ButtonContinue.onClick.AddListener(ButtonContinueClicked);
+        ButtonDisconnect.onClick.AddListener(ButtonDisconnectClicked);
+        ButtonExit.onClick.AddListener(ButtonExitClicked);
+        
     }
 
 
     void ButtonPauseClicked()
     {
         Time.timeScale = 0;
+        _gameController.RpcPause(true);
         panel.SetActive(true);
+
+        
     }
     void ButtonContinueClicked()
     {
         panel.SetActive(false);
+        _gameController.RpcPause(false);
         Time.timeScale = 1;
     }
     void ButtonDisconnectClicked()
     {
+        Time.timeScale = 1;
         _gameController.Disconnect();
     }
     void ButtonExitClicked()

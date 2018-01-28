@@ -57,17 +57,42 @@ public class GameController : NetworkBehaviour
 
     public void Disconnect()
     {
-        NetworkServer.DisconnectAll();
+        if (NetworkServer.active && NetworkManager.singleton.IsClientConnected())
+        {
+
+            NetworkManager.singleton.StopHost();
+
+        }
+
+        bool noConnection = (NetworkManager.singleton.client == null || NetworkManager.singleton.client.connection == null ||
+                                 NetworkManager.singleton.client.connection.connectionId == -1);
+
+        if (!NetworkManager.singleton.IsClientConnected() && !NetworkServer.active && NetworkManager.singleton.matchMaker == null)
+        {
+            if (!noConnection)
+                NetworkManager.singleton.StopClient();
+        }
     }
 
     private void OnApplicationPause(bool pause)
     {
         if (pause)
+        {
             TextPause.text = "Пауза";
+            Time.timeScale = 0;
+        }
         else
+        {
+            Time.timeScale = 1;
             TextPause.text = "";
+        }
 
         
+    }
+    [ClientRpc]
+    public void RpcPause(bool pause)
+    {
+        OnApplicationPause(pause);
     }
 
     IEnumerator SpawnWaves()
