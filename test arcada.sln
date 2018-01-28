@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2017
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test arcada", "test arcada.csproj", "{041646DB-DE7D-5414-BE94-5779E549A53E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{041646DB-DE7D-5414-BE94-5779E549A53E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{041646DB-DE7D-5414-BE94-5779E549A53E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{041646DB-DE7D-5414-BE94-5779E549A53E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{041646DB-DE7D-5414-BE94-5779E549A53E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
