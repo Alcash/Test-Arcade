@@ -39,7 +39,10 @@ public class PlayerController : NetworkBehaviour
 
     public Text gameOverText;
 
-    
+    public string m_DeadMessage = "ты умер! поздравляю!";
+
+    public string m_ScoreLabel = "Унесенные жизни врагов";
+
     void Update ()
 	{
         if (!isLocalPlayer)
@@ -104,12 +107,12 @@ public class PlayerController : NetworkBehaviour
     void UpdateScore(int value)
     {
         score = value;
-        scoreText.text = "Score: " + score;
+        scoreText.text = m_ScoreLabel+": " + score;
     }
 
     public void GameOver()
     {
-        gameOverText.text = "ты умер! поздравляю!";
+        gameOverText.text = m_DeadMessage;
         
         m_Body.SetActive(false);
         GetComponent<MeshCollider>().enabled = false;

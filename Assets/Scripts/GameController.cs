@@ -25,7 +25,10 @@ public class GameController : NetworkBehaviour
     public Text gameOverText;
     public Text TextPause;
 
-    
+    public string m_GameoverMessage = "Вы все умерли, все погибло и превратилось в прах";
+    public string m_RestartMessage = "Восстань и рази врагов своих, жми кнопку R(к)";
+    public string m_PauseMessage = "Один из Вас остановил время в мире. Ожидайте";
+
 
     List<PlayerHealth> m_Players;
 
@@ -78,7 +81,7 @@ public class GameController : NetworkBehaviour
     {
         if (pause)
         {
-            TextPause.text = "Пауза";
+            TextPause.text = m_PauseMessage;
             Time.timeScale = 0;
         }
         else
@@ -114,8 +117,8 @@ public class GameController : NetworkBehaviour
             IsGameOver();
             if (gameOver)
             {
-                gameOverText.text = "Game Over!";
-                restartText.text = "Press 'R' for Restart";
+                gameOverText.text = m_GameoverMessage;
+                restartText.text = m_RestartMessage;
                 restart = true;
                 break;
             }
@@ -158,26 +161,11 @@ public class GameController : NetworkBehaviour
         gameOver = false;
         gameOverText.text = "";
         restartText.text = "";
-        restart = false;
-       // RpcRestart();
+        restart = false;       
 
 
         m_Players.ForEach(x => x.RpcAlive());
         StartCoroutine(SpawnWaves());
-    }
-
-    [ClientRpc]
-    void RpcRestart()
-    {
-        Debug.Log("GC RpcRestart");
-        Debug.Log("GC m_Players.count " + m_Players.Count);
-        foreach (PlayerHealth player in m_Players)
-        {
-            Debug.Log("GC player isDead " + player.isDead());
-            Debug.Log("GC player enabled " + player.enabled);
-        }
-        m_Players.ForEach(x => x.enabled = true);
-        m_Players.ForEach(x => x.RpcAlive());
-    }
+    }    
 
  }
