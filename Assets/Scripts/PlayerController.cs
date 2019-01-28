@@ -43,6 +43,10 @@ public class PlayerController : NetworkBehaviour
 
     public string m_ScoreLabel = "Унесенные жизни врагов";
 
+    new Rigidbody rigidbody;
+
+    AudioSource audioSource;
+
     void Update ()
 	{
         if (!isLocalPlayer)
@@ -75,16 +79,16 @@ public class PlayerController : NetworkBehaviour
             return;        
 
 		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
-		GetComponent<Rigidbody>().velocity = movement * speed;
-		
-		GetComponent<Rigidbody>().position = new Vector3
+        rigidbody.velocity = movement * speed;
+
+        rigidbody.position = new Vector3
 		(
-			Mathf.Clamp (GetComponent<Rigidbody>().position.x, boundary.xMin, boundary.xMax), 
+			Mathf.Clamp (rigidbody.position.x, boundary.xMin, boundary.xMax), 
 			0.0f, 
-			Mathf.Clamp (GetComponent<Rigidbody>().position.z, boundary.zMin, boundary.zMax)
+			Mathf.Clamp (rigidbody.position.z, boundary.zMin, boundary.zMax)
 		);
-		
-		GetComponent<Rigidbody>().rotation = Quaternion.Euler (0.0f, 0.0f, GetComponent<Rigidbody>().velocity.x * -tilt);
+
+        rigidbody.rotation = Quaternion.Euler (0.0f, 0.0f, rigidbody.velocity.x * -tilt);
 	}
     [Command]
     void CmdFire(Vector3 position, Quaternion rotation)
@@ -93,7 +97,7 @@ public class PlayerController : NetworkBehaviour
         var shot_gameobject = Instantiate(shot, position, rotation);
         var rigidbody = shot_gameobject.GetComponent<Rigidbody>();
         rigidbody.velocity = shot_gameobject.transform.forward * speed;
-        GetComponent<AudioSource>().Play();
+        audioSource.Play();
         shot_gameobject.GetComponent<Done_Mover>().PlayerController = this;
         NetworkServer.Spawn(shot_gameobject);
     }
@@ -116,7 +120,7 @@ public class PlayerController : NetworkBehaviour
         
         m_Body.SetActive(false);
         GetComponent<MeshCollider>().enabled = false;
-        GetComponent<Rigidbody>().velocity = Vector3.zero;
+        rigidbody.velocity = Vector3.zero;
         CmdGameOver();
         this.enabled = false;
     }
@@ -126,14 +130,15 @@ public class PlayerController : NetworkBehaviour
         
         m_Body.SetActive(false);
         GetComponent<MeshCollider>().enabled = false;
-        GetComponent<Rigidbody>().velocity = Vector3.zero;
+        rigidbody.velocity = Vector3.zero;
     }
 
     private void Start()
     {
-        score = 0;        
-        
-        
+        score = 0;
+
+        rigidbody = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
         gameOverText.text = "";
         UpdateScore(0);
     }
